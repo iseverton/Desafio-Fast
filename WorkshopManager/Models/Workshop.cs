@@ -5,8 +5,10 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Author { get; set; }
         public DateTime EventDate { get; set; }
+        public int CreatedById { get; set; }
+        public Employee CreatedBy { get; set; }
+        public ICollection<Employee> Employees { get; set; }
         
     }
 }
