@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WorkshopManager.Api.Entities;
 
+
 namespace WorkshopManager.Api.Data.Mappings;
 
 public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>

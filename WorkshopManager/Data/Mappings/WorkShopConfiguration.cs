@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 using WorkshopManager.Api.Entities;
 
 namespace WorkshopManager.Api.Data.Mappings
@@ -33,9 +34,11 @@ namespace WorkshopManager.Api.Data.Mappings
                 .IsRequired();
 
            builder.HasOne(w => w.CreatedBy)
-                .WithMany()
+                .WithMany(e=> e.CreatedWorkshops)
                 .HasForeignKey(e => e.CreatedById)
                 .OnDelete(DeleteBehavior.Restrict);
+
+           
 
 
             // Relacionamento Workshop - Employee (N:N)
