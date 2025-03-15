@@ -6,8 +6,8 @@ namespace WorkshopManager.Api.Repositories;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
-    private readonly AppDbContext _context;
-    private readonly DbSet<TEntity> _dbSet;
+    protected readonly AppDbContext _context;
+    protected readonly DbSet<TEntity> _dbSet;
 
     public BaseRepository(AppDbContext context)
     {
@@ -15,9 +15,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _dbSet = _context.Set<TEntity>();
     }
 
-    public Task<TEntity> AddAsync(TEntity entity)
+    public async Task<TEntity> AddAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        await _dbSet.AddAsync(entity);
+        await _context.SaveChangesAsync();
+        return entity;
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -42,8 +44,9 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         throw new NotImplementedException();
     }
 
-    public Task UpdateAsync(TEntity entity)
+    public async Task UpdateAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+         _dbSet.Update(entity);
+        await _context.SaveChangesAsync();
     }
 }

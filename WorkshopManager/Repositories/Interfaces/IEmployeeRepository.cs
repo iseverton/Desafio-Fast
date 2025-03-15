@@ -1,6 +1,9 @@
-﻿namespace WorkshopManager.Api.Repositories.Interfaces
+﻿using System.Linq.Expressions;
+using WorkshopManager.Api.Entities;
+
+namespace WorkshopManager.Api.Repositories.Interfaces;
+
+public interface IEmployeeRepository : IBaseRepository<Employee>
 {
-    public class EmployeeRepository
-    {
-    }
+    public Task<bool> EmailExistsAsync(string email);
 }

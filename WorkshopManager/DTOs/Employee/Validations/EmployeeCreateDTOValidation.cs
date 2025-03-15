@@ -13,7 +13,9 @@ public class EmployeeCreateDTOValidation : AbstractValidator<EmployeeCreateDTO>
             .NotEmpty()
             .WithMessage("Email is required")
             .EmailAddress()
-            .WithMessage("Email is not valid");
+            .WithMessage("Email is not valid")
+            ;
+        
         RuleFor(x => x.Password)
             .NotEmpty()
             .WithMessage("Password is required");
