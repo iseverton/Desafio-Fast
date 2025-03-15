@@ -1,0 +1,13 @@
+﻿using WorkshopManager.Api.Data.Context;
+using WorkshopManager.Api.Entities;
+using WorkshopManager.Api.Repositories.Interfaces;
+
+namespace WorkshopManager.Api.Repositories;
+
+public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
+{
+    public EmployeeRepository(AppDbContext context) : base(context)
+    {
+    }
+}
+
