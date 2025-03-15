@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Net;
-using WorkshopManager.Api.DTOs.Employee;
-using WorkshopManager.Api.DTOs.Employee.Validations;
+using WorkshopManager.Api.DTOs.EmployeeDtos;
+using WorkshopManager.Api.DTOs.EmployeeDtos.Validations;
 using WorkshopManager.Api.DTOs.ResponseDTOs;
-using WorkshopManager.Api.Entities;
+using WorkshopManager.Api.Models;
 using WorkshopManager.Api.Repositories;
 using WorkshopManager.Api.Repositories.Interfaces;
 using WorkshopManager.Api.Services.Interfaces;

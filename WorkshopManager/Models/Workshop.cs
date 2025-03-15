@@ -1,4 +1,6 @@
-﻿namespace WorkshopManager.Api.Entities
+﻿using WorkshopManager.Api.Models;
+
+namespace WorkshopManager.Api.Models
 {
     public class Workshop
     {

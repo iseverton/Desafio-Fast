@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WorkshopManager.Api.Entities;
+using WorkshopManager.Api.Models;
 
 
 namespace WorkshopManager.Api.Data.Mappings;

@@ -1,6 +1,6 @@
 ﻿using WorkshopManager.Api.Models.Enums;
 
-namespace WorkshopManager.Api.Entities
+namespace WorkshopManager.Api.Models
 {
     public class Employee
     {

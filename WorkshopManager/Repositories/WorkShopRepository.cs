@@ -1,5 +1,5 @@
 ﻿using WorkshopManager.Api.Data.Context;
-using WorkshopManager.Api.Entities;
+using WorkshopManager.Api.Models;
 using WorkshopManager.Api.Repositories.Interfaces;
 
 namespace WorkshopManager.Api.Repositories;

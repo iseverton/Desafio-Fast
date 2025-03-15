@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
-using WorkshopManager.Api.Entities;
+using WorkshopManager.Api.Models;
 
 namespace WorkshopManager.Api.Data.Mappings
 {

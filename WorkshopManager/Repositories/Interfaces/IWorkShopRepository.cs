@@ -1,4 +1,4 @@
-﻿using WorkshopManager.Api.Entities;
+﻿using WorkshopManager.Api.Models;
 
 namespace WorkshopManager.Api.Repositories.Interfaces;
 

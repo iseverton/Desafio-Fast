@@ -1,6 +1,6 @@
-﻿using WorkshopManager.Api.DTOs.Employee;
+﻿using WorkshopManager.Api.DTOs.EmployeeDtos;
 using WorkshopManager.Api.DTOs.ResponseDTOs;
-using WorkshopManager.Api.Entities;
+
 
 namespace WorkshopManager.Api.Services.Interfaces
 {
