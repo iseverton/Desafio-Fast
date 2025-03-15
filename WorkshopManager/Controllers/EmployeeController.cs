@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using WorkshopManager.Api.DTOs.Employee;
+using WorkshopManager.Api.DTOs.EmployeeDtos;
 using WorkshopManager.Api.Services.Interfaces;
 
 namespace WorkshopManager.Api.Controllers;
