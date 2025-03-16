@@ -17,5 +17,7 @@ public class MappingProfile : Profile
         CreateMap<Workshop, WorkShopResponseDTO>().ReverseMap();
         CreateMap<WorkShopUpdateDTO, Workshop>()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));;
+
+       
     }
 }

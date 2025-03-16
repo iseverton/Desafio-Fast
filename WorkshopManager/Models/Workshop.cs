@@ -1,4 +1,5 @@
-﻿using WorkshopManager.Api.Models;
+﻿using System.Text.Json.Serialization;
+using WorkshopManager.Api.Models;
 
 namespace WorkshopManager.Api.Models
 {
@@ -10,7 +11,7 @@ namespace WorkshopManager.Api.Models
         public DateTime EventDate { get; set; }
         public int CreatedById { get; set; }
         public Employee CreatedBy { get; set; }
-        public ICollection<Employee> Employees { get; set; }
-        
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
+
     }
 }
