@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using System.Security.Claims;
 using WorkshopManager.Api.DTOs.EmployeeDtos;
 using WorkshopManager.Api.Services.Interfaces;
 
@@ -47,25 +49,6 @@ public class EmployeeController : ControllerBase
         }
     }
 
-    [HttpPost]
-    public async Task <IActionResult> CreateEmployee(EmployeeCreateDTO employeeCreateDTO)
-    {
-        try
-        {
-            var result = await _employeeService.PostEmployeeAsync(employeeCreateDTO);
-            if (result.IsSucceeded) {
-                return CreatedAtAction(nameof(GetEmployeeById), new { id = result }, result);
-            }
-            return BadRequest(result);
-
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-
-    }
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEmployee(int id)
     {
@@ -81,6 +64,7 @@ public class EmployeeController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateEmployee(int id,EmployeeUpdateDTO employeeUpdateDTO)
     {
@@ -95,6 +79,5 @@ public class EmployeeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
 
 }

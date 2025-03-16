@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WorkshopManager.Api.DTOs.WorkShopDTOs;
+using WorkshopManager.Api.Services;
 using WorkshopManager.Api.Services.Interfaces;
 
 namespace WorkshopManager.Api.Controllers;
@@ -45,6 +48,8 @@ public class WorkShopController : ControllerBase
         }
     }
 
+
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateWorkShop(WorkShopCreateDTO workShopCreateDTO)
     {
@@ -63,12 +68,14 @@ public class WorkShopController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteWorkShop(int id)
     {
         try
         {
-            var result = await _workShopService.DeleteWorkShop(id);
+            var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
+            var result = await _workShopService.DeleteWorkShop(userIdClaim, id);
             if (result.IsSucceeded) return Ok(result);
             return BadRequest(result);
         }
@@ -78,12 +85,16 @@ public class WorkShopController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateWorkShop(int id, WorkShopUpdateDTO workShopUpdateDTO)
     {
         try
         {
-            var result = await _workShopService.UpdateWorkShop(id, workShopUpdateDTO);
+            // pegar o id do usuario logado
+            var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
+
+            var result = await _workShopService.UpdateWorkShop(userIdClaim, id, workShopUpdateDTO);
             if (result.IsSucceeded) return Ok(result);
             return BadRequest(result);
         }
@@ -92,4 +103,23 @@ public class WorkShopController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [Authorize]
+    [HttpPost("{id}/join")]
+    public async Task<IActionResult> JoinWorkshop(int id)
+    {
+        var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
+        try
+        {
+            var result = await _workShopService.JoinWorkshop(userIdClaim, id);
+            if (result.IsSucceeded) return Ok(result);
+            return BadRequest(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    
 }

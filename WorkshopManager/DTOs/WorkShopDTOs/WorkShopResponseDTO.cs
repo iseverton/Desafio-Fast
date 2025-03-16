@@ -1,4 +1,5 @@
-﻿using WorkshopManager.Api.Models;
+﻿using WorkshopManager.Api.DTOs.EmployeeDtos;
+using WorkshopManager.Api.Models;
 
 namespace WorkshopManager.Api.DTOs.WorkShopDTOs;
 
@@ -9,5 +10,5 @@ public class WorkShopResponseDTO
     public string Description { get; set; }
     public DateTime EventDate { get; set; }
     public int CreatedById { get; set; }
-    public ICollection<Employee> Employees { get; set; }
+    public ICollection<EmployeeResponseDTO> Employees { get; set; }
 }

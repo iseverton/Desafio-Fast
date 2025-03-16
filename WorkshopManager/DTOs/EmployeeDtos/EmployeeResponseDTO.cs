@@ -4,6 +4,7 @@ namespace WorkshopManager.Api.DTOs.EmployeeDtos;
 
 public class EmployeeResponseDTO
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public ERoles Role { get; set; }
