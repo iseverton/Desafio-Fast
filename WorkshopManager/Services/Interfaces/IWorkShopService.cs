@@ -8,6 +8,7 @@ public interface IWorkShopService
     Task<ResponseDTO<List<WorkShopResponseDTO>>> GetAll();
     Task<ResponseDTO<WorkShopResponseDTO>> GetById(int id);
     Task<ResponseDTO<int?>> PostWorkShopAsync(WorkShopCreateDTO workShopCreateDTO);
-    Task<ResponseDTO<WorkShopUpdateDTO>> UpdateWorkShop(int id, WorkShopUpdateDTO workShopUpdateDTO);
-    Task<ResponseDTO<bool>> DeleteWorkShop(int id);
+    Task<ResponseDTO<WorkShopUpdateDTO>> UpdateWorkShop(int UserId, int id, WorkShopUpdateDTO workShopUpdateDTO);
+    Task<ResponseDTO<bool>> DeleteWorkShop(int UserId, int id);
+    Task<ResponseDTO<JoinWorkshopDTO>> JoinWorkshop(int userId, int id);
 }

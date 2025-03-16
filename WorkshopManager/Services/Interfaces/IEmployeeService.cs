@@ -11,6 +11,7 @@ namespace WorkshopManager.Api.Services.Interfaces
         Task<ResponseDTO<int?>> PostEmployeeAsync(EmployeeCreateDTO employeeCreateDTO);
         Task<ResponseDTO<EmployeeUpdateDTO>> UpdateEmployee(int id, EmployeeUpdateDTO employeeUpdateDTO);
         Task<ResponseDTO<bool>> DeleteEmployee(int id);
-        
+
+
     }
 }

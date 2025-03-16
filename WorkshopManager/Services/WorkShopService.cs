@@ -3,6 +3,7 @@ using System.Net;
 using WorkshopManager.Api.DTOs.ResponseDTOs;
 using WorkshopManager.Api.DTOs.WorkShopDTOs;
 using WorkshopManager.Api.Models;
+using WorkshopManager.Api.Repositories;
 using WorkshopManager.Api.Repositories.Interfaces;
 using WorkshopManager.Api.Services.Interfaces;
 
@@ -11,24 +12,29 @@ namespace WorkshopManager.Api.Services
     public class WorkShopService : IWorkShopService
     {
         private readonly IWorkShopRepository _workShopRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
-public WorkShopService(IWorkShopRepository workShopRepository, IMapper mapper)
+        public WorkShopService(IWorkShopRepository workShopRepository, IMapper mapper, IEmployeeRepository employeeRepository)
         {
             _workShopRepository = workShopRepository;
             _mapper = mapper;
+            _employeeRepository = employeeRepository;
         }
 
-        public async Task<ResponseDTO<bool>> DeleteWorkShop(int id)
+        public async Task<ResponseDTO<bool>> DeleteWorkShop(int UserId, int id)
         {
             var workShop = await _workShopRepository.GetByIdAsync(id);
             if (workShop is null) return ResponseDTO<bool>.Fail("WorkShop not found", HttpStatusCode.NotFound);
+
+            if (workShop.CreatedById != UserId) return ResponseDTO<bool>.Fail("You are not authorized to delete this workshop", HttpStatusCode.Unauthorized);
+
             await _workShopRepository.RemoveAsync(workShop);
             return ResponseDTO<bool>.Success(true, HttpStatusCode.OK);
         }
 
         public async Task<ResponseDTO<List<WorkShopResponseDTO>>> GetAll()
         {
-            var result = await _workShopRepository.GetAllAsync();
+            var result = await _workShopRepository.GetAllWithEmployeesAsync();
             if (result is null) return ResponseDTO<List<WorkShopResponseDTO>>.Fail("WorkShop not found", HttpStatusCode.NotFound);
             var model = _mapper.Map<List<WorkShopResponseDTO>>(result);
             return ResponseDTO<List<WorkShopResponseDTO>>.Success(model, HttpStatusCode.OK);
@@ -42,6 +48,18 @@ public WorkShopService(IWorkShopRepository workShopRepository, IMapper mapper)
             return ResponseDTO<WorkShopResponseDTO>.Success(model, HttpStatusCode.OK);
         }
 
+        public async Task<ResponseDTO<JoinWorkshopDTO>> JoinWorkshop(int userId, int id)
+        {
+            var workshop = await _workShopRepository.GetByIdAsync(id);
+            if (workshop is null) return ResponseDTO<JoinWorkshopDTO>.Fail("Workshop not found", HttpStatusCode.NotFound);
+            var employee = await _employeeRepository.GetByIdAsync(userId);
+
+            workshop.Employees.Add(employee);
+            await _workShopRepository.UpdateAsync(workshop);
+            var model = new JoinWorkshopDTO(userId,id);
+            return ResponseDTO<JoinWorkshopDTO>.Success(model, HttpStatusCode.OK);
+        }
+
         public async Task<ResponseDTO<int?>> PostWorkShopAsync(WorkShopCreateDTO workShopCreateDTO)
         {
             var model = _mapper.Map<Workshop>(workShopCreateDTO);
@@ -49,10 +67,13 @@ public WorkShopService(IWorkShopRepository workShopRepository, IMapper mapper)
             return ResponseDTO<int?>.Success(model.Id, HttpStatusCode.OK);
         }
 
-        public async Task<ResponseDTO<WorkShopUpdateDTO>> UpdateWorkShop(int id, WorkShopUpdateDTO workShopUpdateDTO)
+        public async Task<ResponseDTO<WorkShopUpdateDTO>> UpdateWorkShop(int UserId, int id, WorkShopUpdateDTO workShopUpdateDTO)
         {
             var workShop = await _workShopRepository.GetByIdAsync(id);
             if (workShop is null) return ResponseDTO<WorkShopUpdateDTO>.Fail("WorkShop not found", HttpStatusCode.NotFound);
+
+            if (workShop.CreatedById != UserId) return ResponseDTO<WorkShopUpdateDTO>.Fail("You are not authorized to update this workshop", HttpStatusCode.Unauthorized);
+
             var model = _mapper.Map(workShopUpdateDTO, workShop);
             await _workShopRepository.UpdateAsync(model);
             return ResponseDTO<WorkShopUpdateDTO>.Success(workShopUpdateDTO, HttpStatusCode.OK);

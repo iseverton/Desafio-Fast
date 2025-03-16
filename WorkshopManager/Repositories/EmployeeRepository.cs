@@ -15,5 +15,10 @@ public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
        return await _dbSet.AnyAsync(e => e.Email == email);
     }
+
+    public async Task<Employee> ValidateCredentialsAsync(string email, string password)
+    {
+        return await _dbSet.FirstOrDefaultAsync(e => e.Email == email && e.Password == password);
+    }
 }
 
