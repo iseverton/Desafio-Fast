@@ -16,6 +16,13 @@ public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
        return await _dbSet.AnyAsync(e => e.Email == email);
     }
 
+    public async Task<Employee> GetEmployeeByIdWithWorkshopsAsync(int id)
+    {
+        return await _dbSet
+            .Include(e => e.Workshops)
+            .FirstOrDefaultAsync(e => e.Id == id);
+    }
+
     public async Task<Employee> ValidateCredentialsAsync(string email, string password)
     {
         return await _dbSet.FirstOrDefaultAsync(e => e.Email == email && e.Password == password);

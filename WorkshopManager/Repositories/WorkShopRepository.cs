@@ -17,5 +17,13 @@ public class WorkShopRepository : BaseRepository<Workshop>, IWorkShopRepository
             .AsNoTracking()
             .ToListAsync();
     }
+
+    public async Task<Workshop> GetByIdWithEmployeeAsync(int id)
+    {
+        return await _context.Workshops
+        .Include(w => w.Employees) 
+        .FirstOrDefaultAsync(w => w.Id == id);
+
+    }
 }
 

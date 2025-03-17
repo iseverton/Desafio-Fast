@@ -8,9 +8,7 @@ using WorkshopManager.Api.Services.Interfaces;
 
 namespace WorkshopManager.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class EmployeeController : ControllerBase
+public class EmployeeController : BaseController
 {
     private readonly IEmployeeService _employeeService;
 
@@ -19,6 +17,7 @@ public class EmployeeController : ControllerBase
         _employeeService = employeeService;
     }
 
+    
     [HttpGet]
     public async Task<IActionResult> GetEmployees()
     {
@@ -49,6 +48,7 @@ public class EmployeeController : ControllerBase
         }
     }
 
+   
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEmployee(int id)
     {
@@ -64,7 +64,7 @@ public class EmployeeController : ControllerBase
         }
     }
 
-    [Authorize]
+  
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateEmployee(int id,EmployeeUpdateDTO employeeUpdateDTO)
     {

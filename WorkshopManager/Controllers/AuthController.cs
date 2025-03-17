@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WorkshopManager.Api.DTOs.AuthDTOs;
 using WorkshopManager.Api.DTOs.EmployeeDtos;
 using WorkshopManager.Api.Models;
@@ -7,9 +8,7 @@ using WorkshopManager.Api.Services.Interfaces;
 
 namespace WorkshopManager.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseController
 {
     private readonly IAuthService _authService;
     private readonly IEmployeeService _employeeService;
@@ -19,6 +18,8 @@ public class AuthController : ControllerBase
         _authService = authService;
         _employeeService = employeeService;
     }
+
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register(EmployeeCreateDTO employeeCreateDTO)
     {
@@ -39,6 +40,7 @@ public class AuthController : ControllerBase
 
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDTO loginDTO)
     {

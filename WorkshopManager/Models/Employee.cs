@@ -12,6 +12,6 @@ namespace WorkshopManager.Api.Models
         public ERoles Role { get; set; }
 
         public ICollection<Workshop>? CreatedWorkshops { get; set; }
-        public ICollection<Workshop>? Workshops { get; set; }
+        public ICollection<Workshop>? Workshops { get; set; } = new List<Workshop>();
     }
 }

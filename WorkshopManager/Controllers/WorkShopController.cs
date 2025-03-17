@@ -7,13 +7,11 @@ using WorkshopManager.Api.Services.Interfaces;
 
 namespace WorkshopManager.Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class WorkShopController : ControllerBase
+public class WorkshopController : BaseController
 {
     private readonly IWorkShopService _workShopService;
 
-    public WorkShopController(IWorkShopService workShopService)
+    public WorkshopController(IWorkShopService workShopService)
     {
         _workShopService = workShopService;
     }
@@ -49,16 +47,17 @@ public class WorkShopController : ControllerBase
     }
 
 
-    [Authorize]
+  
     [HttpPost]
     public async Task<IActionResult> CreateWorkShop(WorkShopCreateDTO workShopCreateDTO)
     {
         try
         {
-            var result = await _workShopService.PostWorkShopAsync(workShopCreateDTO);
+            var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
+            var result = await _workShopService.PostWorkShopAsync(userIdClaim ,workShopCreateDTO);
             if (result.IsSucceeded)
             {
-                return CreatedAtAction(nameof(GetById), new { id = result }, result);
+                return CreatedAtAction(nameof(GetById), new { id = result}, result);
             }
             return BadRequest(result);
         }
@@ -68,7 +67,7 @@ public class WorkShopController : ControllerBase
         }
     }
 
-    [Authorize]
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteWorkShop(int id)
     {
@@ -85,7 +84,7 @@ public class WorkShopController : ControllerBase
         }
     }
 
-    [Authorize]
+ 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateWorkShop(int id, WorkShopUpdateDTO workShopUpdateDTO)
     {
@@ -104,7 +103,6 @@ public class WorkShopController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPost("{id}/join")]
     public async Task<IActionResult> JoinWorkshop(int id)
     {
@@ -121,5 +119,21 @@ public class WorkShopController : ControllerBase
         }
     }
 
-    
+    [HttpPut("{id}/leave")]
+    public async Task<IActionResult> LeaveWorkshop(int id)
+    {
+        var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
+        try
+        {
+            var result = await _workShopService.LeaveWorkshop(userIdClaim, id);
+            if (result.IsSucceeded) return Ok(result);
+            return BadRequest(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
 }

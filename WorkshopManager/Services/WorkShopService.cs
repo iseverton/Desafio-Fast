@@ -32,17 +32,17 @@ namespace WorkshopManager.Api.Services
             return ResponseDTO<bool>.Success(true, HttpStatusCode.OK);
         }
 
-        public async Task<ResponseDTO<List<WorkShopResponseDTO>>> GetAll()
+        public async Task<ResponseDTO<List<WorkshopReponseAllDTO>>> GetAll()
         {
             var result = await _workShopRepository.GetAllWithEmployeesAsync();
-            if (result is null) return ResponseDTO<List<WorkShopResponseDTO>>.Fail("WorkShop not found", HttpStatusCode.NotFound);
-            var model = _mapper.Map<List<WorkShopResponseDTO>>(result);
-            return ResponseDTO<List<WorkShopResponseDTO>>.Success(model, HttpStatusCode.OK);
+            if (result is null) return ResponseDTO<List<WorkshopReponseAllDTO>>.Fail("WorkShop not found", HttpStatusCode.NotFound);
+            var model = _mapper.Map<List<WorkshopReponseAllDTO>>(result);
+            return ResponseDTO<List<WorkshopReponseAllDTO>>.Success(model, HttpStatusCode.OK);
         }
 
         public async Task<ResponseDTO<WorkShopResponseDTO>> GetById(int id)
         {
-            var result = await _workShopRepository.GetByIdAsync(id);
+            var result = await _workShopRepository.GetByIdWithEmployeeAsync(id);
             if (result is null) return ResponseDTO<WorkShopResponseDTO>.Fail("WorkShop not found", HttpStatusCode.NotFound);
             var model = _mapper.Map<WorkShopResponseDTO>(result);
             return ResponseDTO<WorkShopResponseDTO>.Success(model, HttpStatusCode.OK);
@@ -60,11 +60,28 @@ namespace WorkshopManager.Api.Services
             return ResponseDTO<JoinWorkshopDTO>.Success(model, HttpStatusCode.OK);
         }
 
-        public async Task<ResponseDTO<int?>> PostWorkShopAsync(WorkShopCreateDTO workShopCreateDTO)
+        public async Task<ResponseDTO<JoinWorkshopDTO>> LeaveWorkshop(int userId, int id)
+        {
+            var workshop = await _workShopRepository.GetByIdWithEmployeeAsync(id);
+            if (workshop is null) return ResponseDTO<JoinWorkshopDTO>.Fail("Workshop not found", HttpStatusCode.NotFound);
+
+            var employee = await _employeeRepository.GetByIdAsync(userId);
+            if (employee is null) return ResponseDTO<JoinWorkshopDTO>.Fail("Employee not found", HttpStatusCode.NotFound);
+            
+            var employeeExists = workshop.Employees.FirstOrDefault(e => e.Id == userId);
+            workshop.Employees.Remove(employeeExists);
+            await _workShopRepository.UpdateAsync(workshop);
+            var model = new JoinWorkshopDTO(userId, id);
+            return ResponseDTO<JoinWorkshopDTO>.Success(model, HttpStatusCode.OK);
+        }
+
+        public async Task<ResponseDTO<WorkShopResponseDTO>> PostWorkShopAsync(int userId,WorkShopCreateDTO workShopCreateDTO)
         {
             var model = _mapper.Map<Workshop>(workShopCreateDTO);
-            var result = await _workShopRepository.AddAsync(model);
-            return ResponseDTO<int?>.Success(model.Id, HttpStatusCode.OK);
+            model.CreatedById = userId;
+            await _workShopRepository.AddAsync(model);
+            var modelDto = _mapper.Map<WorkShopResponseDTO>(model);
+            return ResponseDTO<WorkShopResponseDTO>.Success(modelDto, HttpStatusCode.OK);
         }
 
         public async Task<ResponseDTO<WorkShopUpdateDTO>> UpdateWorkShop(int UserId, int id, WorkShopUpdateDTO workShopUpdateDTO)

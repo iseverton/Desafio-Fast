@@ -40,20 +40,20 @@ public class EmployeeService : IEmployeeService
         return ResponseDTO<List<EmployeeResponseDTO>>.Success(model, HttpStatusCode.OK);
     }
 
-    public async Task<ResponseDTO<EmployeeResponseDTO>> GetById(int id)
+    public async Task<ResponseDTO<EmployeeWorkshopResponseDTO>> GetById(int id)
     {
-        var result = await _employeeRepository.GetByIdAsync(id);
-        if (result is null) return ResponseDTO<EmployeeResponseDTO>.Fail("Employee not found", HttpStatusCode.NotFound);
+        var result = await _employeeRepository.GetEmployeeByIdWithWorkshopsAsync(id);
+        if (result is null) return ResponseDTO<EmployeeWorkshopResponseDTO>.Fail("Employee not found", HttpStatusCode.NotFound);
 
-        var model = _mapper.Map<EmployeeResponseDTO>(result);
-        return ResponseDTO<EmployeeResponseDTO>.Success(model,HttpStatusCode.OK);
+        var model = _mapper.Map<EmployeeWorkshopResponseDTO>(result);
+        return ResponseDTO<EmployeeWorkshopResponseDTO>.Success(model,HttpStatusCode.OK);
     }
 
-    public async Task<ResponseDTO<int?>> PostEmployeeAsync(EmployeeCreateDTO employeeCreateDTO)
+    public async Task<ResponseDTO<EmployeeResponseDTO>> PostEmployeeAsync(EmployeeCreateDTO employeeCreateDTO)
     {
         // verificar se o email ja existe
         var emailExists = await _employeeRepository.EmailExistsAsync(employeeCreateDTO.Email);
-        if (emailExists) return ResponseDTO<int?>.Fail("Email already exists", HttpStatusCode.BadRequest);
+        if (emailExists) return ResponseDTO<EmployeeResponseDTO>.Fail("Email already exists", HttpStatusCode.BadRequest);
 
 
         var result = new EmployeeCreateDTOValidation().Validate(employeeCreateDTO);
@@ -66,13 +66,14 @@ public class EmployeeService : IEmployeeService
                     Code = e.ErrorCode,
                     Target = e.PropertyName
                 }).ToList();
-            return ResponseDTO<int?>.Fail(errors, HttpStatusCode.BadRequest);
+            return ResponseDTO<EmployeeResponseDTO>.Fail(errors, HttpStatusCode.BadRequest);
 
         }
        
         var model = _mapper.Map<Employee>(employeeCreateDTO);
         await _employeeRepository.AddAsync(model);
-        return ResponseDTO<int?>.Success(model.Id, HttpStatusCode.Created);
+        var modelDto = _mapper.Map<EmployeeResponseDTO>(model);
+        return ResponseDTO<EmployeeResponseDTO>.Success(modelDto, HttpStatusCode.Created);
     }
 
     public async Task<ResponseDTO<EmployeeUpdateDTO>> UpdateEmployee(int id, EmployeeUpdateDTO employeeUpdateDTO)
