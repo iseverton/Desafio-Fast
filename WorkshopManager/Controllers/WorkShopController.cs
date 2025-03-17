@@ -94,7 +94,7 @@ public class WorkshopController : BaseController
             var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
 
             var result = await _workShopService.UpdateWorkShop(userIdClaim, id, workShopUpdateDTO);
-            if (result.IsSucceeded) return Ok(result);
+            if (result.IsSucceeded) return NoContent();
             return BadRequest(result);
         }
         catch (Exception e)
@@ -126,7 +126,7 @@ public class WorkshopController : BaseController
         try
         {
             var result = await _workShopService.LeaveWorkshop(userIdClaim, id);
-            if (result.IsSucceeded) return Ok(result);
+            if (result.IsSucceeded) return Ok();
             return BadRequest(result);
         }
         catch (Exception e)
