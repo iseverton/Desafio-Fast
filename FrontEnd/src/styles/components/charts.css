@@ -1,0 +1,21 @@
+.charts-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.chart-card {
+  background-color: var(--background);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.chart-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}

@@ -1,0 +1,11 @@
+/*Globais*/
+@import url(base/reset.css);
+@import url(base/global.css);
+/*Components*/
+@import url(components/header.css);
+@import url(components/main.css);
+@import url(components/employees-list.css);
+@import url(components/component-global.css);
+@import url(components/workshops-list.css);
+@import url(components/charts.css);
+@import url(components/responsive.css);

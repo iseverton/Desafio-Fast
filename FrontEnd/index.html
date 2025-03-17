@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/styles/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <h1>FAST Soluções - Gestão de Workshops</h1>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav class="tabs">
+        <button class="tab-button active" data-tab="employees">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          Colaboradores
+        </button>
+        <button class="tab-button" data-tab="workshops">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          Workshops
+        </button>
+        <button class="tab-button" data-tab="charts">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 20V10" />
+            <path d="M18 20V4" />
+            <path d="M6 20v-4" />
+          </svg>
+          Análise
+        </button>
+      </nav>
+
+      <div id="employees" class="tab-content active">
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h2>Colaboradores</h2>
+          </div>
+          <div id="employees-list" class="card-content"></div>
+        </div>
+      </div>
+
+      <div id="workshops" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+            </div>
+            <h2>Workshops</h2>
+          </div>
+          <div id="workshops-list" class="card-content"></div>
+        </div>
+      </div>
+
+      <div id="charts" class="tab-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="icon-wrapper">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 20V10" />
+                <path d="M18 20V4" />
+                <path d="M6 20v-4" />
+              </svg>
+            </div>
+            <h2>Análise de Participação</h2>
+          </div>
+          <div class="card-content charts-container">
+            <div class="chart-card">
+              <h3>Workshops por Colaborador</h3>
+              <canvas id="employeeChart"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Participantes por Workshop</h3>
+              <canvas id="workshopChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="src/js/data.js"></script>
+  </body>
+</html>
