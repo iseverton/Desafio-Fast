@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +22,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(o =>
 {
     o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    //o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-
-    //o.JsonSerializerOptions.WriteIndented = true;
 });
 
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("Jwt"));
@@ -60,7 +59,20 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+//builder.Services.AddOpenApi();
+builder.Services.AddOpenApiDocument(options => {
+    options.AddSecurity("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme.",
+        Type = OpenApiSecuritySchemeType.Http,
+        In = OpenApiSecurityApiKeyLocation.Header,
+        Name = "Authorization",
+        Scheme = "bearer"
+    });
+    options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+}
+);
+
 
 
 var app = builder.Build();
@@ -71,7 +83,9 @@ app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseOpenApi();
+    app.UseSwaggerUI();
+            
 }
 
 app.UseHttpsRedirection();

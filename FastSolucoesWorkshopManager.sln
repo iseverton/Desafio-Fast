@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkshopManager.Api", "WorkshopManager\WorkshopManager.Api.csproj", "{D0707FE9-D3E4-43FB-9F1E-CA3FB11F5FA5}"
 EndProject
