@@ -25,7 +25,7 @@ public class EmployeeController : BaseController
         {
             var result = await _employeeService.GetAll();
             if (result.IsSucceeded) return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
         catch (Exception e)
         {
@@ -40,7 +40,7 @@ public class EmployeeController : BaseController
         {
             var result = await _employeeService.GetById(id);
             if(result.IsSucceeded) return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
         catch(Exception e )
         {
@@ -56,7 +56,7 @@ public class EmployeeController : BaseController
         {
             var result = await _employeeService.DeleteEmployee(id);
             if (result.IsSucceeded) return NoContent();
-            return BadRequest(result);
+            return NotFound(result);
         }
         catch (Exception e)
         {

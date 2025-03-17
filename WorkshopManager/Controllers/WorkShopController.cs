@@ -103,7 +103,7 @@ public class WorkshopController : BaseController
         }
     }
 
-    [HttpPost("{id}/join")]
+    [HttpPost("employee/{id:int}/join")]
     public async Task<IActionResult> JoinWorkshop(int id)
     {
         var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
@@ -119,7 +119,7 @@ public class WorkshopController : BaseController
         }
     }
 
-    [HttpPut("{id}/leave")]
+    [HttpPut("employee/{id:int}/leave")]
     public async Task<IActionResult> LeaveWorkshop(int id)
     {
         var userIdClaim = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)?.Value);
